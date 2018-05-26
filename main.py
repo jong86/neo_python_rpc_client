@@ -1,15 +1,13 @@
 from neorpc.Client import RPCClient
 client = RPCClient()
-blockchain_height = client.get_height()
-print(blockchain_height)
 
-from flask import Flask
+from flask import Flask, request, jsonify
 app = Flask(__name__)
 
-@app.route("/")
-def hello():
-    return "Hello World!"
+@app.route("/validate_address")
+def validateAddress():
+  address = request.args['address']
+  return jsonify(client.validate_addr(address))
 
 if __name__ == "__main__":
-    app.run()
-    
+  app.run(port=7000)
